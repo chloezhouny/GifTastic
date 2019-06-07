@@ -44,12 +44,13 @@ $(document).on("click", ".options", function()
 	console.log(topicSearch);
 	var state = $(this).attr("data-state");
 	var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topicSearch + "&api_key=Uw1BIBPaxE2IeV3MmcjUxQ4ORA05PsKI&limit=10";
-	
+	var playlistURL = "https://api.spotify.com/v1/search?q=Muse&type=playlist&limit=10"
 
 	$.ajax({
 
 		url: queryURL,
 		method: "GET"
+		
 	})
 		.then(function(response){
 			console.log(response);
@@ -73,7 +74,49 @@ $(document).on("click", ".options", function()
 
 	});
 
+		$.ajax({
+		url: playlistURL,
+		method: "GET",
+		Accept: "application/json",
+		ContentType: "application/json",
+		headers: {
+		"Authorization": "Bearer BQA0YeaiuEiyjVqzTwvM2UskdvB3wM_c8tS22OKsE0TASLKpnK4PGgLuNapQikLPpb2KukFyurZ8yd45bIyslBazub_aZq65VZpVlyfsTAeToBFIFBQZXgxrhnmHsR-NXsNZ9DAHZqRzNHHS-w"}
+
+	})
+		.then(function(response){
+			console.log(response);
+			var result = response.playlists;
+			var playlistURL = result.items[0].external_urls.spotify;
+			console.log(playlistURL);
+			var imgURL = result.items[0].images[0].url;
+			console.log(imgURL);
+
+			var playlistDiv = $("<div id = 'playlist'>");
+			var playlist = $("<a href='" + playlistURL + "'>");
+			var img = $("<img>");
+			img.attr("src", imgURL);
+			playlist.append(img);
+
+			playlistDiv.append(playlist);
+			
+			$("#playlist").append(playlistDiv);
+
+			})
+
+
+
 })
+
+
+
+
+
+
+
+
+
+
+
 
 	$(document).on("click", ".gif", function()
 			{
