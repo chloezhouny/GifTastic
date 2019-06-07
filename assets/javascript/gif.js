@@ -43,7 +43,7 @@ $(document).on("click", ".options", function()
 	var topicSearch = $(this).attr("data-fitness");
 	console.log(topicSearch);
 	var state = $(this).attr("data-state");
-	var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + topicSearch + "&api_key=Uw1BIBPaxE2IeV3MmcjUxQ4ORA05PsKI&limit=10";
+	var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topicSearch + "&api_key=Uw1BIBPaxE2IeV3MmcjUxQ4ORA05PsKI&limit=10";
 	
 
 	$.ajax({
