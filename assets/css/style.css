@@ -1,0 +1,90 @@
+
+html
+{
+	height: 100%;
+}
+
+
+
+body
+{
+	background-color: #F0F0F0;
+	background-size: cover;
+	height: 100%;
+}
+
+
+#buttons-container
+{
+	border: none;
+	background-color: #F0F0F0;
+	border-radius: 0%;
+	width: 15%;
+}
+
+main
+{
+	height: 100%;
+
+}
+
+#content
+{
+	height: 100%;
+}
+#navBar h3
+{
+	background-color: black;
+	color: white;
+}
+
+header
+{
+	background-color: black;
+}
+
+.options
+{
+
+	border: none;
+	margin: 6px 0px;
+	width: 100%;
+	letter-spacing: 0.2em;
+	font-size: 10px;
+	font-weight: bold;
+	border-radius: 0%;
+	background-color: #F0F0F0;
+	color: black;
+
+}
+
+.btn-link
+{
+	color: black;
+}
+
+
+
+#displayArea
+{
+	background-color: white;
+	float: left;
+	display: inline-block;
+	width: 80%;
+
+}
+
+#display
+{
+	margin-left: 10%;
+	width: 100%;
+}
+img{
+	width: 300px;
+}
+
+#item
+{
+	width: 300px;
+	float: left;
+}
