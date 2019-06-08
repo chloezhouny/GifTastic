@@ -1,47 +1,91 @@
 
 html
 {
-	height:100vh;
+	min-height:100vh;
+	font-family: 'Roboto Condensed', sans-serif;
 }
-
 
 
 body
 {
 	background-color: #F0F0F0;
 	background-size: cover;
-	height: 100vh;
+	min-height: 100vh;
+
 }
 
 
+/*header*/
+header
+{
+	background-color: black;
+	width: 100%;
+	float: left;
+}
+
+.container
+{
+	margin-left: 21%;
+	width: 68%;
+}
+
+
+#navBar h3
+{
+	background-color: black;
+	color: white;
+	position: relative;
+	right: 8%;
+	
+}
+
+#navBar
+{
+	float: left;
+	width: 30%;
+	position: relative;
+	right: 2%;
+
+
+}
+
+#search
+{
+	margin-left: 15%;
+	font-family: 'Roboto Condensed', sans-serif;
+
+}
+
+input::placehoder
+{
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+/*Main Content*/
+main
+{
+	height: 100vh;
+	clear: both;
+
+}
+
+
+#content
+{
+	height: 100%;
+}
+
+
+/*buttons*/
 #buttons-container
 {
 	border: none;
 	background-color: #F0F0F0;
 	border-radius: 0%;
 	width: 15%;
+	margin-top: 5%;
 }
 
-main
-{
-	height: 100vh;
-
-}
-
-#content
-{
-	height: 100%;
-}
-#navBar h3
-{
-	background-color: black;
-	color: white;
-}
-
-header
-{
-	background-color: black;
-}
 
 .options
 {
@@ -65,26 +109,82 @@ header
 
 
 
+
+/*
+ Display Area*/
 #displayArea
 {
-	background-color: white;
+	background-image: #F0F0F0;
 	float: left;
 	display: inline-block;
-	width: 80%;
+	width: 75%;
+	padding-left: 2%;
+	margin-top: 2%;
+
 
 }
+
+
+/*Playlists*/
+
+#displayArea
+{
+	padding-left: 8%;
+}
+#displayArea h5
+{
+	font-family: 'Roboto', sans-serif;
+	font-weight: bold;
+
+}
+
+#displayArea hr
+{
+	width: 92%;
+
+}
+
+#playlistDiv
+{
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	margin-top: 2%;
+
+}
+
+#playlist
+{
+	width: 24%;
+}
+
+/*Gifs*/
 
 #display
 {
-	margin-left: 10%;
 	width: 100%;
-}
-img{
-	width: 300px;
+	height: 100vh;
+	margin-top: 2%;
+	display: inline;
+	float: left;
 }
 
+img
+{
+	width: 98%;
+}
+
+#display hr
+{
+	width: 92%;
+}
+#rating
+{
+	font-size: 10px;
+}
 #item
 {
-	width: 300px;
+	width: 23%;
+	height: auto;
 	float: left;
 }

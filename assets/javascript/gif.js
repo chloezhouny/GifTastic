@@ -3,9 +3,16 @@ var topics = ["THE PURSUIT: BURN", "FIRESTARTER", "BEST ABS EVER", "PRECISION RU
 var topicsSearch = ["cardio", "boxing", "core training", "run training", "boxing", "ropes", "barre", "pilates", "dance cardio",
  "core training", "spinning class"];
 var userAdd = false;
+var start = true;
 
 function getButton()
 {
+
+	if(start === true)
+	{
+		start = false;
+	}
+
 	if (userAdd === false)
 	{
 		for (var i = 0; i < topicsSearch.length; i++)
@@ -27,7 +34,6 @@ function getButton()
 			btn.attr("data-fitness", topicsSearch[i]);
 			btn.attr("type", "button");
 			$("#buttons-container").append(btn);
-
 		
 	}
 }
@@ -37,15 +43,20 @@ function getButton()
 getButton();
 
 
+
+
 $(document).on("click", ".options", function()
 {
-	$("#display").text("");
+	$("#display").html("");
+	$("#playlistDiv").text("");
 	var topicSearch = $(this).attr("data-fitness");
-	console.log(topicSearch);
 	var state = $(this).attr("data-state");
 	var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topicSearch + "&api_key=Uw1BIBPaxE2IeV3MmcjUxQ4ORA05PsKI&limit=10";
-	var playlistURL = "https://api.spotify.com/v1/search?q=Muse&type=playlist&limit=10"
+	var tokenURL = "https://accounts.spotify.com/api/token";
+	var playlistURL = "https://api.spotify.com/v1/search?q=" + topicSearch + "&type=playlist&limit=10";	
 
+
+	/* Giphy API */
 	$.ajax({
 
 		url: queryURL,
@@ -55,68 +66,94 @@ $(document).on("click", ".options", function()
 		.then(function(response){
 			console.log(response);
 			var result = response.data;
+			$("#display").append("<hr>");
 			for(var i = 0; i<result.length; i++)
 			{
+
 				var item = $("<div id = 'item'>");
 
-				var rating = $("<div>").text(result[i].rating);	
+				var rating = $("<div>").text("Rating: "+ result[i].rating);	
+				rating.attr("id", "rating");
 				var image = $("<img>");
 				image.attr("data-state", "still");
 				image.attr("data-still", result[i].images.fixed_width_still.url);
 				image.attr("data-animate", result[i].images.fixed_width.url);
 				image.addClass("gif");
 				image.attr("src", $(image).attr("data-still"));
-
 				item.append(image, rating);
-
 				$("#display").append(item);
 			}
-
 	});
 
-		$.ajax({
-		url: playlistURL,
-		method: "GET",
-		Accept: "application/json",
-		ContentType: "application/json",
-		headers: {
-		"Authorization": "Bearer BQA0YeaiuEiyjVqzTwvM2UskdvB3wM_c8tS22OKsE0TASLKpnK4PGgLuNapQikLPpb2KukFyurZ8yd45bIyslBazub_aZq65VZpVlyfsTAeToBFIFBQZXgxrhnmHsR-NXsNZ9DAHZqRzNHHS-w"}
+var clientId = '5e15085d2b924d049ae29907ee452bbf';
+var clientSecret = 'e84f853c2b784addb982d679f609d73a';
+var encodedData = window.btoa(clientId + ':' + clientSecret);
+var token;
 
-	})
-		.then(function(response){
-			console.log(response);
-			var result = response.playlists;
-			var playlistURL = result.items[0].external_urls.spotify;
-			console.log(playlistURL);
-			var imgURL = result.items[0].images[0].url;
-			console.log(imgURL);
 
-			var playlistDiv = $("<div id = 'playlist'>");
-			var playlist = $("<a href='" + playlistURL + "'>");
-			var img = $("<img>");
-			img.attr("src", imgURL);
-			playlist.append(img);
+jQuery.ajaxPrefilter(function(options) {
+    if (options.crossDomain && jQuery.support.cors) {
+        options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+    }
+});
 
-			playlistDiv.append(playlist);
-			
-			$("#playlist").append(playlistDiv);
+$.ajax({
+    method: "POST",
+    url: "https://accounts.spotify.com/api/token",
+    data: {
+      grant_type: 'client_credentials'
+    },
+	headers: {
+		"Authorization": "Basic "+ encodedData,
+		'Content-Type': 'application/x-www-form-urlencoded'
+	}
+})
+    .then (function(result) {
+      console.log(result);
+      token = result.access_token;
+
+
+      /* Spotify playlist API */
+			$.ajax({
+				url: playlistURL,
+				method: "GET",
+				Accept: "application/json",
+				ContentType: "application/json",
+				headers: {
+				"Authorization": "Bearer "+ token}
 
 			})
+			.then(function(response){
+				console.log(response);
+				for(var i = 0; i<4; i++)
+			{
 
+				var result = response.playlists;
+				var playlistURL = result.items[i].external_urls.spotify;
+
+				var imgURL = result.items[i].images[0].url;
+			
+
+				var playlists = $("<div id = 'playlist'>");
+				var playlist = $("<a href='" + playlistURL + "' target = 'blank'>");
+				var img = $("<img>");
+				img.attr("src", imgURL);
+				playlist.append(img);
+
+				playlists.append(playlist);
+				
+				$("#playlistDiv").append(playlists);
+			}
+		})
+
+
+    });
+
+
+		
 
 
 })
-
-
-
-
-
-
-
-
-
-
-
 
 	$(document).on("click", ".gif", function()
 			{

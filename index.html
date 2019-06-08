@@ -10,37 +10,43 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.5/css/uikit.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 
+
 </head>
+
 <body>
 	<header>
 		<div class = "container">
-			<nav class="navbar justify-content-between pl-5 pr-5 py-5" id="navBar">
+			<nav class="navbar d-flex flex-column py-5" id="navBar">
 			  		<h3> Commit to <br>something.</h3>
-			</nav>
+			  		<br>
+					<form class="form-inline d-block" id='search'>
+		    				<input class="form-control form-control-sm mr-sm-2 bg-light" type="search" placeholder="Add your workout" id = "add" aria-label="Search">
+		    				<button class="btn btn-light btn-sm " type="submit" id="submit">↖︎</button>
+		  			</form>
+  			</nav>
 		</div>
 	</header>
 
 
 		<main>
-			<div class = "container-fluid mt-2 ml-5 d-flex justify-content-center">
-					<form class="form-inline">
-	    				<input class="form-control mr-sm-2 bg-light" type="search" placeholder="Add" id = "add" aria-label="Search">
-	    				<button class="btn btn-light my-2 my-sm-0" type="submit" id="submit">Add</button>
-  					</form>
-  			</div>
-			<div class = "container-fluid mt-5 ml-5 d-flex" id = "content">
-				<div class = "mr-0" id = "buttons-container"></div>
-				<div id = "displayArea">
-					<div id = "playlist"></div>
-					<div id = "display"></div>		
+			<div class = "container-fluid mt-5 ml-3 d-flex" id = "content">
+				<div class = "mr-0" id = "buttons-container">				
 				</div>
-				<div class = "mr-0" id = "fav"></div>
-				
+				<div id = "displayArea" class = "ml-2 ">	
+					<h5>Playlists</h5>
+					<hr class = 'm-0'>				
+					<div id = "playlistDiv" class = "d-flex justify-content-around">
+					
+					</div>
+					<div id = "display">					
+					</div>		
+				</div>			
 			</div>
-
-	</main>
+	    </main>
 
 </body>
 
