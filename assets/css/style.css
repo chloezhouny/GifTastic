@@ -83,7 +83,7 @@ main
 	background-color: #F0F0F0;
 	border-radius: 0%;
 	width: 15%;
-	margin-top: 5%;
+	margin-top: 9%;
 }
 
 
@@ -131,10 +131,20 @@ main
 {
 	padding-left: 8%;
 }
+
+#icon
+{
+	width: 25px;
+	background-color: #F0F0F0;
+	margin-right: 0.5%;
+
+}
+
 #displayArea h5
 {
 	font-family: 'Roboto', sans-serif;
 	font-weight: bold;
+	display: inline-block;
 
 }
 
@@ -144,19 +154,42 @@ main
 
 }
 
+
+
 #playlistDiv
 {
 	width: 100%;
 	display: flex;
 	justify-content: space-around;
 	margin-top: 2%;
+	overflow: hidden;
 
 }
 
 #playlist
 {
-	width: 24%;
+	width: 25%;
+	overflow: hidden;
+	position: relative;
 }
+
+#playlistName
+{
+
+	position: absolute;
+	bottom: 236.17px;
+	color: white;
+	font-weight: bold;
+	text-align: center;
+	bottom: 0.5px;
+	width: 236.17px;
+	padding-top: 110px;
+	padding-bottom: 110px;
+	
+	background-color: rgba(0, 0, 0, 0.5);
+
+}
+
 
 /*Gifs*/
 
@@ -164,6 +197,7 @@ main
 {
 	width: 100%;
 	height: 100vh;
+	padding-left: 4%;
 	margin-top: 2%;
 	display: inline;
 	float: left;
@@ -171,20 +205,49 @@ main
 
 img
 {
-	width: 98%;
+	width: 100%;
 }
 
 #display hr
 {
 	width: 92%;
 }
+
+
 #rating
 {
 	font-size: 10px;
+	position: absolute;
+	bottom: 236.17px;
+	color: rgba(255, 255, 255, 0.1);
+	font-weight: bold;
+	text-align: center;
+	bottom: 0.5px;
+	width: 220px;
+	padding-top: 10px;
+	padding-bottom: 10px;	
+	background-color: rgba(0, 0, 0, 0.1);
+  	transition: 0.3s;
 }
+
+#rating:active
+{
+	pointer-events: none;
+}
+
+#rating:hover {
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
+	
+}
+
+
 #item
 {
 	width: 23%;
 	height: auto;
 	float: left;
+	position: relative;
 }
+
+

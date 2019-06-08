@@ -1,9 +1,10 @@
-var topics = ["THE PURSUIT: BURN", "FIRESTARTER", "BEST ABS EVER", "PRECISION RUN", 
-"REAL DEAL BOXING", "ROPES AND ROWERS", "TRILOGY BARRE", "PILATES FUSION", "THE MUSE", "FLOW CORE TONE", "ANTHEM"];
-var topicsSearch = ["cardio", "boxing", "core training", "run training", "boxing", "ropes", "barre", "pilates", "dance cardio",
- "core training", "spinning class"];
+var topics = ["REAL DEAL BOXING", "BEST ABS EVER", "TRILOGY BARRE", "PILATES FUSION", "FIRESTARTER", "THE PURSUIT: BURN", "PRECISION RUN", 
+"ROPES AND ROWERS",  "THE MUSE", "FLOW CORE TONE", "ANTHEM"];
+var topicsSearch = ["boxing", "core training", "ballet", "pilates", "cardio HIIT training", "spinning class", "runing", "ropes", "dancing",
+ "core training", "cycling"];
 var userAdd = false;
 var start = true;
+var token;
 
 function getButton()
 {
@@ -39,9 +40,42 @@ function getButton()
 }
 
 
+function getSpotifyToken()
+{
+	var tokenURL = "https://accounts.spotify.com/api/token";
+	var clientId = '5e15085d2b924d049ae29907ee452bbf';
+	var clientSecret = 'e84f853c2b784addb982d679f609d73a';
+	var encodedData = window.btoa(clientId + ':' + clientSecret);
+
+
+
+	jQuery.ajaxPrefilter(function(options) {
+	    if (options.crossDomain && jQuery.support.cors) {
+	        options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+	    }
+	});
+
+		$.ajax({
+		    method: "POST",
+		    url: "https://accounts.spotify.com/api/token",
+		    data: {
+		      grant_type: 'client_credentials'
+		    },
+			headers: {
+				"Authorization": "Basic "+ encodedData,
+				'Content-Type': 'application/x-www-form-urlencoded'
+			}
+		})
+		    .then (function(result) {
+		      console.log(result);
+		      token = result.access_token;
+		 });
+
+
+}
 
 getButton();
-
+getSpotifyToken();
 
 
 
@@ -52,104 +86,89 @@ $(document).on("click", ".options", function()
 	var topicSearch = $(this).attr("data-fitness");
 	var state = $(this).attr("data-state");
 	var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topicSearch + "&api_key=Uw1BIBPaxE2IeV3MmcjUxQ4ORA05PsKI&limit=10";
-	var tokenURL = "https://accounts.spotify.com/api/token";
 	var playlistURL = "https://api.spotify.com/v1/search?q=" + topicSearch + "&type=playlist&limit=10";	
 
 
-	/* Giphy API */
-	$.ajax({
-
-		url: queryURL,
-		method: "GET"
-		
-	})
-		.then(function(response){
-			console.log(response);
-			var result = response.data;
-			$("#display").append("<hr>");
-			for(var i = 0; i<result.length; i++)
-			{
-
-				var item = $("<div id = 'item'>");
-
-				var rating = $("<div>").text("Rating: "+ result[i].rating);	
-				rating.attr("id", "rating");
-				var image = $("<img>");
-				image.attr("data-state", "still");
-				image.attr("data-still", result[i].images.fixed_width_still.url);
-				image.attr("data-animate", result[i].images.fixed_width.url);
-				image.addClass("gif");
-				image.attr("src", $(image).attr("data-still"));
-				item.append(image, rating);
-				$("#display").append(item);
-			}
-	});
-
-var clientId = '5e15085d2b924d049ae29907ee452bbf';
-var clientSecret = 'e84f853c2b784addb982d679f609d73a';
-var encodedData = window.btoa(clientId + ':' + clientSecret);
-var token;
-
-
-jQuery.ajaxPrefilter(function(options) {
-    if (options.crossDomain && jQuery.support.cors) {
-        options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
-    }
-});
-
-$.ajax({
-    method: "POST",
-    url: "https://accounts.spotify.com/api/token",
-    data: {
-      grant_type: 'client_credentials'
-    },
-	headers: {
-		"Authorization": "Basic "+ encodedData,
-		'Content-Type': 'application/x-www-form-urlencoded'
-	}
-})
-    .then (function(result) {
-      console.log(result);
-      token = result.access_token;
-
 
       /* Spotify playlist API */
-			$.ajax({
-				url: playlistURL,
-				method: "GET",
-				Accept: "application/json",
-				ContentType: "application/json",
-				headers: {
-				"Authorization": "Bearer "+ token}
+		$.ajax({
+			url: playlistURL,
+			method: "GET",
+			Accept: "application/json",
+			ContentType: "application/json",
+			headers: {
+			"Authorization": "Bearer "+ token}
 
-			})
-			.then(function(response){
-				console.log(response);
-				for(var i = 0; i<4; i++)
-			{
+		})
+		.then(function(response){
+			console.log(response);
+			for(var i = 0; i<4; i++)
+		{
 
-				var result = response.playlists;
-				var playlistURL = result.items[i].external_urls.spotify;
+			var result = response.playlists;
+			var playlistURL = result.items[i].external_urls.spotify;
 
-				var imgURL = result.items[i].images[0].url;
+			var imgURL = result.items[i].images[0].url;
+			var name = result.items[i].name;
+			console.log(name);
+		
+
+			var playlists = $("<div id = 'playlist'>");
+			var playlist = $("<a href='" + playlistURL + "' target = 'blank'>");
+			var img = $("<img>");
+			img.attr("src", imgURL);
+			img.addClass("uk-animation-scale-up uk-transform-origin-top-left uk-transition-fade");
+			img.attr("background-color", "black")
+
+			var nameDiv =  $("<div id='playlistName'>").text(name);
+			nameDiv.addClass("uk-transition-fade");
 			
 
-				var playlists = $("<div id = 'playlist'>");
-				var playlist = $("<a href='" + playlistURL + "' target = 'blank'>");
-				var img = $("<img>");
-				img.attr("src", imgURL);
-				playlist.append(img);
+			playlist.addClass("uk-transition-toggle");
+			playlist.addClass("uk-overflow-hidden");
+			playlist.append(img);
+			playlist.append(nameDiv);
 
-				playlists.append(playlist);
-				
-				$("#playlistDiv").append(playlists);
-			}
+
+			playlists.append(playlist);
+			
+			$("#playlistDiv").append(playlists);
+		}
+	})
+
+
+	    /* Giphy API */
+		$.ajax({
+
+			url: queryURL,
+			method: "GET"
+			
 		})
+			.then(function(response){
+				console.log(response);
+				var result = response.data;
+				$("#display").append("<hr>");
+				for(var i = 0; i<result.length; i++)
+				{
 
+					var item = $("<div id = 'item'>");
 
-    });
+					var rating = $("<div>").text("Rating: "+ result[i].rating);	
+					rating.attr("id", "rating");
 
+					var image = $("<img>");
+					image.attr("data-state", "still");
+					image.attr("data-still", result[i].images.fixed_width_still.url);
+					image.attr("data-animate", result[i].images.fixed_width.url);
+					image.addClass("gif");
+					image.addClass("uk-animation-scale-up uk-transform-origin-top-left")
+					image.attr("src", $(image).attr("data-still"));
 
+					item.addClass("uk-overflow-hidden");
+					item.append(image, rating);
+					$("#display").append(item);
+				}
+	});
 		
 
 
@@ -157,6 +176,7 @@ $.ajax({
 
 	$(document).on("click", ".gif", function()
 			{
+
 			var state = $(this).attr("data-state");
 			console.log(state);
 
