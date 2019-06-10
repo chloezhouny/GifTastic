@@ -109,8 +109,8 @@ $(document).on("click", ".options", function()
 			var playlistURL = result.items[i].external_urls.spotify;
 
 			var imgURL = result.items[i].images[0].url;
-			var name = result.items[i].name;
-			console.log(name);
+		
+
 		
 
 			var playlists = $("<div id = 'playlist'>");
@@ -120,14 +120,14 @@ $(document).on("click", ".options", function()
 			img.addClass("uk-animation-scale-up uk-transform-origin-top-left uk-transition-fade");
 			img.attr("background-color", "black")
 
-			var nameDiv =  $("<div id='playlistName'>").text(name);
-			nameDiv.addClass("uk-transition-fade");
+			var playDiv =  $("<div id='play'>").text("►");
+			playDiv.addClass("uk-transition-fade");
 			
 
 			playlist.addClass("uk-transition-toggle");
 			playlist.addClass("uk-overflow-hidden");
 			playlist.append(img);
-			playlist.append(nameDiv);
+			playlist.append(playDiv);
 
 
 			playlists.append(playlist);
