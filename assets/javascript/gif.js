@@ -48,11 +48,10 @@ function getSpotifyToken()
 	var encodedData = window.btoa(clientId + ':' + clientSecret);
 
 
-
 	jQuery.ajaxPrefilter(function(options) {
-	    if (options.crossDomain && jQuery.support.cors) {
-	        options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
-	    }
+    if (options.crossDomain && jQuery.support.cors) {
+        options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+    }
 	});
 
 		$.ajax({
@@ -63,13 +62,15 @@ function getSpotifyToken()
 		    },
 			headers: {
 				"Authorization": "Basic "+ encodedData,
-				'Content-Type': 'application/x-www-form-urlencoded'
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'x-requested-with': 'XMLHttpRequest'
 			}
 		})
 		    .then (function(result) {
 		      console.log(result);
 		      token = result.access_token;
 		 });
+		    // return token;
 
 
 }
