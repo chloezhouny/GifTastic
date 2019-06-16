@@ -6,6 +6,12 @@ var userAdd = false;
 var start = true;
 var token;
 
+jQuery.ajaxPrefilter(function(options) {
+if (options.crossDomain && jQuery.support.cors) {
+    options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+}
+});
+
 function getButton()
 {
 
@@ -48,12 +54,6 @@ function getSpotifyToken()
 	var encodedData = window.btoa(clientId + ':' + clientSecret);
 
 
-	jQuery.ajaxPrefilter(function(options) {
-    if (options.crossDomain && jQuery.support.cors) {
-        options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
-    }
-	});
-
 		$.ajax({
 		    method: "POST",
 		    url: "https://accounts.spotify.com/api/token",
@@ -77,6 +77,158 @@ function getSpotifyToken()
 
 getButton();
 getSpotifyToken();
+
+
+
+
+
+var deviceId; 
+
+ console.log(window.location.hash);
+  // Get the hash of the url
+  const hash = window.location.hash
+  .substring(1)
+  .split('&')
+  .reduce(function (initial, item) {
+    if (item) {
+      var parts = item.split('=');
+      initial[parts[0]] = decodeURIComponent(parts[1]);
+    }
+    return initial;
+  }, {});
+  window.location.hash = '';
+
+  // Set token
+  console.log("window hash", hash);
+  let _token = hash.access_token;
+
+  const authEndpoint = 'https://accounts.spotify.com/authorize';
+
+  // Replace with your app's client ID, redirect URI and desired scopes
+  const clientId = '5e15085d2b924d049ae29907ee452bbf';
+  const redirectUri = 'http://localhost:8000/Desktop/Web_Bootcamp/HW/GifTastic';
+  const scopes = [
+    'streaming',
+    'user-read-birthdate',
+    'user-read-private',
+    'user-modify-playback-state'
+  ];
+
+  // If there is no token, redirect to Spotify authorization
+  
+ if (!_token) {
+    window.location = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=token&show_dialog=true`;
+    // window.open(`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=token&show_dialog=true`, "_blank");
+  }
+
+
+
+  // Set up the Web Playback SDK
+
+  window.onSpotifyPlayerAPIReady = () => {
+    const player = new Spotify.Player({
+      name: 'Web Playback SDK Template',
+      getOAuthToken: cb => { cb(_token); }
+    });
+    console.log("debug")
+    // Error handling
+    player.on('initialization_error', e => console.error(e));
+    player.on('authentication_error', e => console.error(e));
+    player.on('account_error', e => console.error(e));
+    player.on('playback_error', e => console.error(e));
+
+    // Playback status updates
+    player.on('player_state_changed', state => {
+      console.log(state)
+      $('#current-track').attr('src', state.track_window.current_track.album.images[0].url);
+      $('#current-track-name').text(state.track_window.current_track.name);
+    });
+
+    // Ready
+    player.on('ready', data => {
+      console.log('Ready with Device ID', data.device_id);
+      
+      // Play a track using our new device ID
+       deviceId = data.device_id;
+      
+    });
+
+    // Connect to the player!
+    player.connect();
+  }
+
+
+
+// Play a specified track on the Web Playback SDK's device ID
+function play(device_id) {
+
+  $.ajax({
+   url: "https://api.spotify.com/v1/me/player/play?device_id=" + device_id,
+   type: "PUT",
+   data: '{"uris": ["'+trackURI+'"]}',
+   beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + _token );},
+   success: function(data) { 
+     console.log(data)
+   }
+  });
+}
+
+
+
+
+
+var tracksAPIs = [];
+var trackURI;
+
+
+
+
+
+
+
+
+function getTrackURI()
+{
+  var tracksURL = tracksAPIs[0];
+  $.ajax({
+      url: tracksURL,
+      method: "GET",
+      Accept: "application/json",
+      ContentType: "application/json",
+      headers: {
+      "Authorization": "Bearer "+ token}
+
+    })
+    .then(function(response){
+      console.log(response);
+
+      console.log(response.items[0].track.uri);
+      trackURI = response.items[0].track.uri;
+      play(deviceId);
+      tracksAPIs = [];
+    })
+
+}
+
+
+
+  function getPlaylist()
+{
+  $("#playlistDiv").text("");
+  console.log(token);
+  
+  var topicSearch = $(this).attr("data-fitness");
+  var state = $(this).attr("data-state");
+  var playlistURL = "https://api.spotify.com/v1/search?q=" + topicSearch + "&type=playlist&limit=10"; 
+  console.log(playlistURL);
+
+}
+
+$(document).on("click", "#button", function()
+{
+	getTrackURI();
+	
+})
 
 
 
@@ -110,7 +262,9 @@ $(document).on("click", ".options", function()
 			var playlistURL = result.items[i].external_urls.spotify;
 
 			var imgURL = result.items[i].images[0].url;
-		
+			var tracksAPI = result.items[i].tracks.href;
+      		tracksAPIs.push(tracksAPI);
+      
 
 		
 
@@ -123,12 +277,18 @@ $(document).on("click", ".options", function()
 
 			var playDiv =  $("<div id='play'>")
 			playDiv.addClass("uk-transition-fade");
+
+			var playButton = $("<button id = 'button'> Play </button>");
+
 			
 
 			playlist.addClass("uk-transition-toggle");
 			playlist.addClass("uk-overflow-hidden");
 			playlist.append(img);
 			playlist.append(playDiv);
+			$("#playlistDiv").append(playButton);
+
+
 
 
 			playlists.append(playlist);
@@ -136,6 +296,8 @@ $(document).on("click", ".options", function()
 			$("#playlistDiv").append(playlists);
 		}
 	})
+
+
 
 
 	    /* Giphy API */
@@ -172,8 +334,10 @@ $(document).on("click", ".options", function()
 	});
 		
 
+});
 
-})
+
+
 
 	$(document).on("click", ".gif", function()
 			{
@@ -202,9 +366,7 @@ $(document).on("click", ".options", function()
 		topics.push($("#add").val().trim());
 		getButton();
 	
-
 	})
-
 
 
 
