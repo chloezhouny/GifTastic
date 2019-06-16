@@ -121,7 +121,7 @@ $(document).on("click", ".options", function()
 			img.addClass("uk-animation-scale-up uk-transform-origin-top-left uk-transition-fade");
 			img.attr("background-color", "black")
 
-			var playDiv =  $("<div id='play'>").text("►");
+			var playDiv =  $("<div id='play'>")
 			playDiv.addClass("uk-transition-fade");
 			
 
