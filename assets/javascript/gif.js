@@ -105,8 +105,8 @@ var deviceId;
 
   // Replace with your app's client ID, redirect URI and desired scopes
   const clientId = '5e15085d2b924d049ae29907ee452bbf';
-  // const redirectUri = 'http://localhost:8000/Desktop/Web_Bootcamp/HW/GifTastic';
-  const redirectUri = 'https://chloezhouny.github.io/GifTastic/';
+  const redirectUri = 'http://localhost:8000/Desktop/Web_Bootcamp/HW/GifTastic';
+  // const redirectUri = 'https://chloezhouny.github.io/GifTastic/';
   const scopes = [
     'streaming',
     'user-read-birthdate',
@@ -255,10 +255,10 @@ $(document).on("click", ".options", function()
 
 		})
 		.then(function(response){
-			console.log(response);
-			for(var i = 0; i<4; i++)
-		{
 
+			for(var i = 0; i<5; i++)
+		{
+			var playlistDiv;
 			var result = response.playlists;
 			// var playlistURL = result.items[i].external_urls.spotify;
 
@@ -288,6 +288,11 @@ $(document).on("click", ".options", function()
 			
 			$("#playlistDiv").append(playlists);
 		}
+
+
+
+
+
 	})
 
 

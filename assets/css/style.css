@@ -164,14 +164,18 @@ main
 	margin-top: 2%;
 	overflow: hidden;
 
+
 }
 
-#playlist
+#playlists
 {
 	width: 25%;
 	overflow: hidden;
 	position: relative;
+
 }
+
+
 
 #play
 {
