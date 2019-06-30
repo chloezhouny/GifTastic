@@ -105,8 +105,8 @@ var deviceId;
 
   // Replace with your app's client ID, redirect URI and desired scopes
   const clientId = '5e15085d2b924d049ae29907ee452bbf';
-  const redirectUri = 'http://localhost:8000/Desktop/Web_Bootcamp/HW/GifTastic';
-  // const redirectUri = 'https://chloezhouny.github.io/GifTastic/';
+  // const redirectUri = 'http://localhost:8000/Desktop/Web_Bootcamp/HW/GifTastic';
+  const redirectUri = 'https://chloezhouny.github.io/GifTastic/';
   const scopes = [
     'streaming',
     'user-read-birthdate',
