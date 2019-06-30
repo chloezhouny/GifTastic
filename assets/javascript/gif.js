@@ -72,7 +72,6 @@ function getSpotifyToken()
 		 });
 		    // return token;
 
-
 }
 
 getButton();
@@ -106,7 +105,8 @@ var deviceId;
 
   // Replace with your app's client ID, redirect URI and desired scopes
   const clientId = '5e15085d2b924d049ae29907ee452bbf';
-  const redirectUri = 'http://localhost:8000/Desktop/Web_Bootcamp/HW/GifTastic';
+  // const redirectUri = 'http://localhost:8000/Desktop/Web_Bootcamp/HW/GifTastic';
+  const redirectUri = 'https://chloezhouny.github.io/GifTastic/';
   const scopes = [
     'streaming',
     'user-read-birthdate',
@@ -130,6 +130,7 @@ var deviceId;
       name: 'Web Playback SDK Template',
       getOAuthToken: cb => { cb(_token); }
     });
+    console.log(_token);
     console.log("debug")
     // Error handling
     player.on('initialization_error', e => console.error(e));
@@ -259,17 +260,15 @@ $(document).on("click", ".options", function()
 		{
 
 			var result = response.playlists;
-			var playlistURL = result.items[i].external_urls.spotify;
+			// var playlistURL = result.items[i].external_urls.spotify;
 
 			var imgURL = result.items[i].images[0].url;
 			var tracksAPI = result.items[i].tracks.href;
       		tracksAPIs.push(tracksAPI);
       
 
-		
-
 			var playlists = $("<div id = 'playlist'>");
-			var playlist = $("<a href='" + playlistURL + "' target = 'blank'>");
+			var playlist = $("<a href='#' id = 'button'>");
 			var img = $("<img>");
 			img.attr("src", imgURL);
 			img.addClass("uk-animation-scale-up uk-transform-origin-top-left uk-transition-fade");
@@ -277,19 +276,13 @@ $(document).on("click", ".options", function()
 
 			var playDiv =  $("<div id='play'>")
 			playDiv.addClass("uk-transition-fade");
-
-			var playButton = $("<button id = 'button'> Play </button>");
-
-			
+		
 
 			playlist.addClass("uk-transition-toggle");
 			playlist.addClass("uk-overflow-hidden");
 			playlist.append(img);
 			playlist.append(playDiv);
-			$("#playlistDiv").append(playButton);
-
-
-
+			
 
 			playlists.append(playlist);
 			
