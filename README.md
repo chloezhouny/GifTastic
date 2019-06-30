@@ -1,6 +1,7 @@
 # GifTastic
 
-This project builds a RPG card game with Jquery library. The player will choose a hero and fight as that hero for the rest of the game. To win the game the player must defeat all the remaining opponents. Trick is to pick the right enemies, not choosing the strongest player. 
+This project uses Spotify API, Spotify Web Playback API and GIPHY API, to make a dynamic web page that populates with playlists and gifs of user's workout choice. Then the user can play each playlist and giph  by clicking on. 
+Deployed link:  https://chloezhouny.github.io/GifTastic/
 
 <br>
 
@@ -13,7 +14,7 @@ This project builds a RPG card game with Jquery library. The player will choose 
 
 ## Code Snippets
 
-### Spotify Authentification
+#### Spotify Authentification
 
 To get a refreshable token when users request music on the website, register an account in Spotify, and you will be given a clientID and clientSecret. With that run ajax call to Spotify token API to request updated token as below:
 
@@ -45,7 +46,7 @@ To get a refreshable token when users request music on the website, register an 
 ```
 <br>
 
-###  Spotify Web Playback SDK
+####  Spotify Web Playback SDK
 
 With spotify authorization, I set up Spotify Web Playback SDK to get a new device ID. Then I run ajax call for the track with device ID, and track uris that got from Spotify API. Here is the demo link that I used for Spotify Web Playback SDK: https://glitch.com/edit/#!/spotify-web-playback
 
