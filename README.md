@@ -1,4 +1,4 @@
-# GifTastic
+# Fitness Music
 
 This project uses Spotify API, Spotify Web Playback API and GIPHY API, to make a dynamic web page that populates with playlists and gifs of user's workout choice. Then the user can play each playlist and giph  by clicking on. 
 Deployed link:  https://chloezhouny.github.io/GifTastic/
